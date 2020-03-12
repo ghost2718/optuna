@@ -8,6 +8,7 @@ import sys
 import threading
 import uuid
 import weakref
+import mong
 
 import alembic.command
 import alembic.config
@@ -190,8 +191,9 @@ class RDBStorage(BaseStorage):
         # type: (orm.Session) -> str
 
         while True:
-            study_uuid = str(uuid.uuid4())
-            study_name = DEFAULT_STUDY_NAME_PREFIX + study_uuid
+            # study_uuid = str(uuid.uuid4())
+            # study_name = DEFAULT_STUDY_NAME_PREFIX + study_uuid
+            study_name = mong.get_random_name()
             study = models.StudyModel.find_by_name(study_name, session)
             if study is None:
                 break
