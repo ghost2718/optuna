@@ -188,17 +188,18 @@ class RDBStorage(BaseStorage):
 
     @staticmethod
     def _create_unique_study_name(session):
-        # type: (orm.Session) -> str
 
-        while True:
-            # study_uuid = str(uuid.uuid4())
-            # study_name = DEFAULT_STUDY_NAME_PREFIX + study_uuid
-            study_name = mong.get_random_name()
-            study = models.StudyModel.find_by_name(study_name, session)
-            if study is None:
-                break
+        # study_uuid = str(uuid.uuid4())
+        # study_name = DEFAULT_STUDY_NAME_PREFIX + study_uuid
 
-        return study_name
+    # 1. Format of the default names
+        study_name = mong.get_random_name()
+        study = models.StudyModel.find_by_name(study_name, session)
+
+    # 2. Exception handling of name collision
+        if study is not None:
+            # TODO: Please revise the error type and the error message.
+            raise ValueError("Failed to generate study name automatically. Please set the study name manually.")   
 
     # TODO(sano): Prevent simultaneously setting different direction in distributed environments.
     def set_study_direction(self, study_id, direction):
