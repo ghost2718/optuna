@@ -199,7 +199,9 @@ class RDBStorage(BaseStorage):
     # 2. Exception handling of name collision
         if study is not None:
             # TODO: Please revise the error type and the error message.
-            raise ValueError("Failed to generate study name automatically. Please set the study name manually.")   
+            raise ValueError("Failed to generate study name automatically. Please set the study name manually.")
+
+        return study_name      
 
     # TODO(sano): Prevent simultaneously setting different direction in distributed environments.
     def set_study_direction(self, study_id, direction):
